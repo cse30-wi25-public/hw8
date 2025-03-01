@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
     }
 
     if ((N < 10000000) || (N > 100000000)){
-        fprintf(stderr, "N must be 10,000,000 <= N 100,000,000\n");
+        fprintf(stderr, "N must be 10,000,000 <= N <= 100,000,000\n");
         exit(EXIT_FAILURE);
     }
 
