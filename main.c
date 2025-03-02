@@ -3,16 +3,15 @@
 #include <pthread.h>
 #include <sys/time.h>
 
-// #define N 10000000  // Array size
 #define MAX_THREADS 4
 
-double *arr;  // Shared array
-double partial_sum[MAX_THREADS] = {0.0};  // Store partial results per thread
-int num_threads;  // Number of active threads
+int *arr;                            // Shared array
+int partial_sum[MAX_THREADS] = {0};  // Store partial results per thread
+int num_threads;                     // Number of active threads
 
 int N; //Array size
 int m; //Modular base
-double s; //Scale factor
+int s; //Scale factor
 
 // Timer function
 double get_time() {
@@ -26,7 +25,7 @@ void serial_work(int N, int m) {
     arr[0] = 1;
     arr[1] = 1;
     for (int i = 2; i < N; i++) {
-        arr[i] = ((int) (arr[i-2] + arr[i-1]) % m);
+        arr[i] = (arr[i-2] + arr[i-1]) % m;
     }
 }
 
@@ -39,8 +38,8 @@ void *parallel_work(void *arg) {
 
     ////
 
-    double sum = 0.0;
-    
+    int sum = 0;
+
     //// TODO: Compute sum of array elements assigned to this thread
 
     ////
@@ -60,15 +59,15 @@ int main(int argc, char *argv[]) {
 
     N = atoi(argv[1]); //Array size
     m = atoi(argv[2]); //Modular base
-    s = atof(argv[3]); //Scale factor
+    s = atoi(argv[3]); //Scale factor
 
     if ((N % 4) != 0){
         fprintf(stderr, "N must be divided by 4\n");
         exit(EXIT_FAILURE);
     }
 
-    if ((N < 10000000) || (N > 100000000)){
-        fprintf(stderr, "N must be 10,000,000 <= N <= 100,000,000\n");
+    if ((N < 1000) || (N > 100000000)){
+        fprintf(stderr, "N must be 1,000 <= N <= 100,000,000\n");
         exit(EXIT_FAILURE);
     }
 
@@ -77,8 +76,10 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    arr = (double *)malloc(N * sizeof(double));
-    
+    arr = (int *)malloc(N * sizeof(int));
+
+    serial_work(N, m);
+
     double T1, TN;
 
     // Test with different thread counts
@@ -91,7 +92,7 @@ int main(int argc, char *argv[]) {
 
         // Call serial section
         serial_work(N, m);
-        
+
         //// TODO: Create threads and execute parallel_work function (Hint: use pthread_create)
 
         ////
@@ -101,7 +102,7 @@ int main(int argc, char *argv[]) {
         ////
 
         // Aggregate results
-        double total_sum = 0.0;
+        int total_sum = 0;
 
         //// TODO: Sum up the partial results from all threads
 
@@ -117,7 +118,7 @@ int main(int argc, char *argv[]) {
 
         // Calculate speedup
         double speedup = T1 / TN;
-        printf("Total sum: %f, Threads: %d, Time: %f sec, Speedup: %f\n", total_sum, num_threads, TN, speedup);
+        printf("Total sum: %d, Threads: %d, Time: %f sec, Speedup: %f\n", total_sum, num_threads, TN, speedup);
     }
 
     free(arr);
