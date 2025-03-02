@@ -12,7 +12,7 @@ int num_threads;  // Number of active threads
 
 int N; //Array size
 int m; //Modular base
-int s; //Scale factor
+double s; //Scale factor
 
 // Timer function
 double get_time() {
@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
 
     N = atoi(argv[1]); //Array size
     m = atoi(argv[2]); //Modular base
-    s = atoi(argv[3]); //Scale factor
+    s = atof(argv[3]); //Scale factor
 
     if ((N % 4) != 0){
         fprintf(stderr, "N must be divided by 4\n");
@@ -89,8 +89,8 @@ int main(int argc, char *argv[]) {
         // Start timing
         double start_time = get_time();
 
-       // Call serial section
-       serial_work(N, m);
+        // Call serial section
+        serial_work(N, m);
         
         //// TODO: Create threads and execute parallel_work function (Hint: use pthread_create)
 
