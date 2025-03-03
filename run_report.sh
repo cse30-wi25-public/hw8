@@ -50,10 +50,10 @@ for N in "${Ns[@]}"; do
         while IFS= read -r line; do
             if [[ "$line" =~ ^Total\ sum:\ .*Threads:\ .*Time:\ .*sec,\ Speedup:\ .* ]]; then
 
-                totalsum=$(echo "$line"  | sed -E 's/^Total sum: ([0-9\.]+), Threads: ([0-9]+), Time: ([0-9\.]+) sec, Speedup: ([0-9\.]+)/\1/')
-                threads=$(echo "$line"   | sed -E 's/^Total sum: ([0-9\.]+), Threads: ([0-9]+), Time: ([0-9\.]+) sec, Speedup: ([0-9\.]+)/\2/')
-                time=$(echo "$line"      | sed -E 's/^Total sum: ([0-9\.]+), Threads: ([0-9]+), Time: ([0-9\.]+) sec, Speedup: ([0-9\.]+)/\3/')
-                speedup=$(echo "$line"   | sed -E 's/^Total sum: ([0-9\.]+), Threads: ([0-9]+), Time: ([0-9\.]+) sec, Speedup: ([0-9\.]+)/\4/')
+                totalsum=$(echo "$line"  | sed -E 's/^Total sum: (-?[0-9\.]+), Threads: ([0-9]+), Time: ([0-9\.]+) sec, Speedup: ([0-9\.]+)/\1/')
+                threads=$(echo "$line"   | sed -E 's/^Total sum: (-?[0-9\.]+), Threads: ([0-9]+), Time: ([0-9\.]+) sec, Speedup: ([0-9\.]+)/\2/')
+                time=$(echo "$line"      | sed -E 's/^Total sum: (-?[0-9\.]+), Threads: ([0-9]+), Time: ([0-9\.]+) sec, Speedup: ([0-9\.]+)/\3/')
+                speedup=$(echo "$line"   | sed -E 's/^Total sum: (-?[0-9\.]+), Threads: ([0-9]+), Time: ([0-9\.]+) sec, Speedup: ([0-9\.]+)/\4/')
 
                 echo "$N,$totalsum,$threads,$time,$speedup" >> "$OUTPUT_FILE"
             fi
