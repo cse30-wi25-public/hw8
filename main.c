@@ -78,7 +78,7 @@ int main(int argc, char *argv[]) {
 
     arr = (int *)malloc(N * sizeof(int));
 
-    // This `serial_work` call may look redundant, but i helps maintain the
+    // This `serial_work` call may look redundant, but it helps maintain the
     // stability of the cache. Please do not remove it unless you intent
     // to conduct further experimentation.
     serial_work(N, m);
@@ -111,6 +111,9 @@ int main(int argc, char *argv[]) {
 
         ////
 
+        // This line is necessary to prevent overflow and ensure correctness
+        total_sum = ((int) total_sum) % m;
+        
         // End timing
         double end_time = get_time();
         TN = end_time - start_time;
