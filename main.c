@@ -40,7 +40,9 @@ void *parallel_work(void *arg) {
 
     int sum = 0;
 
-    //// TODO: Compute "scaled (by 's')" sum of array elements assigned to this thread
+    //// TODO: 
+    //// Compute "scaled (by 's')" partial sum of array elements assigned to this thread
+    //// partial sum should be taken modulo 'm' in every step
 
     ////
 
